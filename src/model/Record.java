@@ -1,6 +1,6 @@
 package model;
 import java.util.Random;
-public class Record
+public class Record implements Comparable<Record>
 {
 	public int a;
 	public String b;
@@ -8,32 +8,40 @@ public class Record
 	{
 		Random random = new Random();
 		a = random.nextInt();
-		b = getRandomString(12);
-	}
-	public String getRandomString(int length)
-	{ //length表示生成字符串的长度
 		String base = "abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM";
-		Random random = new Random();
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < length; i++)
+		for (int i = 0; i < 12; i++)
 		{
 			int number = random.nextInt(base.length());
 			sb.append(base.charAt(number));
 		}
-		return sb.toString();
+		b = sb.toString();
 	}
-	public char[] inttoChar(int i)
+	
+	public Record(byte[] bytes)
 	{
-		char[] chars = new char[4];
-		chars[0] = (char) (i & 0xff);
-		chars[1] = (char) ((i >>> 2) & 0xff);
-		chars[2] = (char) ((i >>> 4) & 0xff);
-		chars[3] = (char) ((i >>> 6) & 0xff);
+		a = (bytes[0] & 0xFF) + ((bytes[1] & 0xFF) << 8) + ((bytes[2] & 0xFF) << 16) + ((bytes[3] & 0xFF) << 24);
+		b = new String(bytes, 4, 12);
+	}
+	
+	private byte[] inttoChar(int i)
+	{
+		byte[] chars = new byte[4];
+		chars[0] = (byte) (i & 0xff);
+		chars[1] = (byte) ((i >>> 8) & 0xff);
+		chars[2] = (byte) ((i >>> 16) & 0xff);
+		chars[3] = (byte) ((i >>> 24) & 0xff);
 		return chars;
 	}
 	@Override
 	public String toString()
 	{
 		return (new String(inttoChar(a)) + b);
+	}
+	
+	@Override
+	public int compareTo(Record o)
+	{
+		return this.a - o.a;
 	}
 }
