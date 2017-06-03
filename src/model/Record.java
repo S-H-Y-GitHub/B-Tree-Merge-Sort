@@ -2,7 +2,7 @@ package model;
 import java.util.Random;
 public class Record implements Comparable<Record>
 {
-	public int a;
+	public Integer a;
 	public String b;
 	public Record()
 	{
@@ -24,7 +24,7 @@ public class Record implements Comparable<Record>
 		b = new String(bytes, 4, 12);
 	}
 	
-	private byte[] inttoChar(int i)
+	private byte[] intToBytes(int i)
 	{
 		byte[] chars = new byte[4];
 		chars[0] = (byte) (i & 0xff);
@@ -33,15 +33,22 @@ public class Record implements Comparable<Record>
 		chars[3] = (byte) ((i >>> 24) & 0xff);
 		return chars;
 	}
+	public byte[] tobytes()
+	{
+		byte[] result = new byte[16];
+		System.arraycopy(intToBytes(a), 0, result, 0, 4);
+		System.arraycopy(b.getBytes(), 0, result, 4, 12);
+		return result;
+	}
 	@Override
 	public String toString()
 	{
-		return (new String(inttoChar(a)) + b);
+		return (new String(intToBytes(a)) + b);
 	}
 	
 	@Override
 	public int compareTo(Record o)
 	{
-		return this.a - o.a;
+		return this.a.compareTo(o.a);
 	}
 }

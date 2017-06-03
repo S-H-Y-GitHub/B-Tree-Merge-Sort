@@ -2,7 +2,7 @@ package utils;
 import model.Record;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 public class GenerateRecords
 {
@@ -15,11 +15,11 @@ public class GenerateRecords
 				throw new IOException("存在无法删除的records.txt文件或文件夹");
 		if (!file.createNewFile())
 			throw new IOException("records.txt创建失败");
-		FileWriter output = new FileWriter(file);
+		FileOutputStream output = new FileOutputStream(file);
 		for (int i = 0; i < 1000000; i++)
 		{
 			Record record = new Record();
-			output.write(record.toString());
+			output.write(record.tobytes());
 		}
 		output.flush();
 		output.close();
