@@ -8,7 +8,7 @@ public class BTreeTest
 		
 		int[] data = {53, 5, 700, 11, 13, 17, 9, 23, 9, 31, 347, 40, 41, -43, 47};
 		
-		/*for (int i : data)
+		for (int i : data)
 		{
 			bTree.insert(i);
 		}

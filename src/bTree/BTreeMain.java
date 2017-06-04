@@ -47,11 +47,10 @@ public class BTreeMain
 					scan.nextLine();
 					System.out.print("请输入Value：");
 					String value = null;
-					//if (scan.hasNextLine())
-					value = scan.nextLine();
+					if (scan.hasNextLine())
+						value = scan.nextLine();
 					Record record = new Record(key, value);
 					bTree.insert(record);
-					System.out.println(bTree.get(key));
 					break;
 				case 3:
 					System.out.print("请输入Key：");
@@ -59,7 +58,6 @@ public class BTreeMain
 					if (scan.hasNextInt())
 						key = scan.nextInt();
 					bTree.delete(key);
-					System.out.println(bTree.get(key));
 					break;
 				default:
 					System.out.println("无效的输入");
