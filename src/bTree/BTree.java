@@ -1,11 +1,15 @@
 package bTree;
 
 
+import model.Record;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 public class BTree
 {
 	private int m = 4;    //B树的阶数，则关键字数范围[[m/2]-1,m-1]
 	private Node root;
-	
+	private HashMap<Integer, String> records = new HashMap<>(1024000, 1);
 	public BTree()
 	{
 		Leaf root = new Leaf();
@@ -14,42 +18,46 @@ public class BTree
 		root.isLeaf = true;
 		this.setRoot(root);
 	}
-	
+	public BTree(ArrayList<Record> records) throws Exception
+	{
+		Leaf root = new Leaf();
+		root.keys.add(0);
+		root.nextLeaf = null;
+		root.isLeaf = true;
+		this.setRoot(root);
+		for (Record record : records)
+			this.insert(record);
+	}
 	public int getM()
 	{
 		return m;
 	}
-	
 	public void setM(int m)
 	{
 		this.m = m;
 	}
-	
 	public Node getRoot()
 	{
 		return root;
 	}
-	
 	public void setRoot(Node root)
 	{
 		this.root = root;
 	}
-	
 	public void setRoot(int m, Node root)
 	{
 		this.m = m;
 		this.root = root;
 	}
-	
-	public void insert(int key) throws Exception
+	public void insert(Record record) throws Exception
 	{
-		Node cur = getNode(key);
-		int index = getKeyInNode(cur, key);
+		Leaf cur = getNode(record.a);
+		int index = getKeyInNode(cur, record.a);
 		assert cur != null;
-		cur.keys.add(index, key);
+		cur.keys.add(index, record.a);
 		insertNode(cur);
+		records.put(record.a, record.b);
 	}
-	
 	public void delete(int key) throws Exception
 	{
 		if (!exist(key))
@@ -62,12 +70,12 @@ public class BTree
 			//delete
 			int index = cur.keys.indexOf(key);
 			cur.keys.remove(index);
+			records.remove(key);
 			deleteNode(cur);
 		}
 	}
-	
 	//定位key所在的节点
-	private Node getNode(int key) throws Exception
+	private Leaf getNode(int key) throws Exception
 	{
 		Node search = root;
 		if (search == null)
@@ -79,9 +87,13 @@ public class BTree
 			int index = getKeyInNode(search, key);
 			search = search.childNodes.get(index);
 		}
-		return search;
+		return (Leaf) search;
 	}
-	
+	public String get(int key) throws Exception
+	{
+		Node n = getNode(key);
+		return records.get(key);
+	}
 	//key是否存在
 	public Boolean exist(int key) throws Exception
 	{
@@ -93,7 +105,6 @@ public class BTree
 		}
 		return false;
 	}
-	
 	//返回key在节点中的index,如3在节点1,5,9的index为1
 	private int getKeyInNode(Node search, int key) throws Exception
 	{
@@ -103,14 +114,12 @@ public class BTree
 		}
 		return search.keys.size();
 	}
-	
 	//返回key在节点中的index，key必须存在
 	private int getKeyLocation(Node search, int key) throws Exception
 	{
 		if (search == null) return -1;
 		return search.keys.indexOf(key);
 	}
-	
 	//返回节点在父节点中的index，节点必须存在
 	private int getNodeLocation(Node search, Node node) throws Exception
 	{

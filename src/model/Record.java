@@ -24,6 +24,14 @@ public class Record implements Comparable<Record>
 		b = new String(bytes, 4, 12);
 	}
 	
+	public Record(Integer a, String b)
+	{
+		this.a = a;
+		if (b.length() != 12)
+			throw new IllegalArgumentException("参数b的长度必须为12！");
+		this.b = b;
+	}
+	
 	private byte[] intToBytes(int i)
 	{
 		byte[] chars = new byte[4];

@@ -8,11 +8,11 @@ public class BTreeTest
 		
 		int[] data = {53, 5, 700, 11, 13, 17, 9, 23, 9, 31, 347, 40, 41, -43, 47};
 		
-		for (int i : data)
+		/*for (int i : data)
 		{
 			bTree.insert(i);
 		}
-		if (bTree.exist(53)) System.out.println("Yes1");
+		if (bTree.exist(9)) System.out.println("Yes1");
 		for (int i : data)
 		{
 			bTree.delete(i);
@@ -21,7 +21,7 @@ public class BTreeTest
             bTree.delete(data[i]);
         }
         bTree.delete(19);*/
-		if (bTree.exist(17)) System.out.println("Yes2");
+		if (bTree.exist(9)) System.out.println("Yes2");
 		System.out.println(bTree.getRoot().keys.size());
 		System.out.println(bTree.getRoot().childNodes.size());
 		for (int i : bTree.getRoot().keys)
