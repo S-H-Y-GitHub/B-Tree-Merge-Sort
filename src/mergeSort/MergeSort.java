@@ -1,3 +1,4 @@
+package mergeSort;
 import model.Record;
 
 import java.io.*;
@@ -11,7 +12,7 @@ public class MergeSort
 	{
 		//10条一块，共100000块
 		//第一遍扫描，每次读取1000块（160K），分成100个子集合
-		FileInputStream recordsfile = new FileInputStream(new File("records.txt"));
+		FileInputStream recordsfile = new FileInputStream("records.txt");
 		File file = new File("temp1.txt");
 		if (file.exists())
 			if (!file.delete())

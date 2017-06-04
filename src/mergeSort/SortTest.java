@@ -1,7 +1,8 @@
+package mergeSort;
 import model.Record;
 
 import java.util.Arrays;
-public class test
+public class SortTest
 {
 	public static void main(String[] args)
 	{
